@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="loading-bar.css"/>
+<script type="text/javascript" src="loading-bar.js"></script>
+</head>
+
+<body>
+ <h1 id="tst1">Show something</h1>
+  <div id="flex-container">
+    <div><img src="Asset-spele-nejausiba.png" usemap="#image-map"></div>
+ <div>
+      <progress class="progress is-large" value="0" max="60" id="pbar" ></progress><p id="counting">60</p>
+<button class="button-78" onclick="start_countdown()" role="button">Start</button></div>
+        <div class="image-container" id="image-container"></div>
+  </div>
+
+    
+<!--   <div id="watch">
+    <center>
+<div id="mainstopwatch">
+<div class="mainTime">
+<span id="mainminute">00</span>
+<span id="mainsecond">00</span>
+<span id="milliseconds">00</span>
+</div>
+<br>
+<!-- <button id="start" onclick="start();">Start</button> 
+<button id="stop" onclick="stop();">Stop</button>
+<button id="reset" onclick="reset();">Reset</button>
+</center>
+    </div> -->
+<!--  <div>
+   <progress class="progress is-large" value="80" max="100">80%</progress>
+ </div> -->
+ 
+
+
+
+<map name="image-map">
+    <area id="coinc" onmouseover="mouseOver()" onmouseout="mouseOut()" target="_self" alt="nejausiba" title="nejausiba" href="" coords="445,390,228,765,661,765" shape="poly">
+    <area id="time01" target="_self" alt="laiks" title="laiks" href="#" coords="449,386,664,761,882,385" shape="poly">
+    <area target="_self" alt="tema" title="tema" href="" coords="448,381,662,2,881,381" shape="poly">
+    <area target="_self" alt="izpildijums" title="izpildijums" href="" coords="223,5,444,377,659,5" shape="poly">
+    <area target="_self" alt="tehnika" title="tehnika" href="" coords="440,381,224,9,8,381" shape="poly">
+    <area target="_self" alt="izpildeB" title="izpildeB" href="" coords="225,764,446,385,4,383" shape="poly">
+</map>
+
+
+    <!-- Script -->
+<script>
+   $(document).ready(function() {
+         $("#time01").click(function(event) {
+            event.preventDefault();
+         });
+      });
+  function start_countdown(){
+    var reverse_counter = 60;
+var downloadTimer = setInterval(function(){
+  document.getElementById("pbar").value = 60 - --reverse_counter;
+  if(reverse_counter <= 0)
+    clearInterval(downloadTimer);
+  
+  document.getElementById("counting").innerHTML= reverse_counter;
+  
+},1000);
+}
+  document.getElementById("tst1")
+function mouseOver() {
+  document.getElementById("tst1").style.color = "red";
+}
+
+function mouseOut() {
+  document.getElementById("tst1").style.color = "black";
+}
+
+  function RandomItemFromArray(myArray) {
+    return myArray[Math.floor(Math.random() * myArray.length)]
+};
+
+var fruit = [ "Apples", "Bananas", "Pears", ];
+
+const startRandom = RandomItemFromArray(fruit);
+console.log(startRandom);
+function myTime() {
+    document.getElementById("tst1").innerHTML = startRandom;
+
+};
+
+var intervalId = window.setInterval(function(){
+  myTime();
+}, 5000);
+
+  const imageContainer = document.getElementById('image-container');
+
+
+let ready = false;
+let imagesLoaded = 0;
+let totalImages = 0;
+let photosArray = [];
+
+// Unsplash API
+const count = 1;
+const apiKey = 'zZRGaQ6Vihyo0039EdUwUx8AnnXismvguJyTnPyniJ4';
+const apiUrl = `https://api.unsplash.com/photos/random?client_id=${apiKey}&count=${count}`;
+
+// Check if all images were loaded
+function imageLoaded() {
+  imagesLoaded++;
+  if (imagesLoaded === totalImages) {
+    ready = true;
+    
+  }
+}
+
+// Helper Function to Set Attributes on DOM Elements
+function setAttributes(element, attributes) {
+  for (const key in attributes) {
+    element.setAttribute(key, attributes[key]);
+  }
+}
+
+// Create Elements For Links & Photos, Add to DOM
+function displayPhotos() {
+  imagesLoaded = 0;
+  totalImages = photosArray.length;
+  // Run function for each object in photosArray
+  photosArray.forEach((photo) => {
+    // Create <a> to link to full photo
+    const item = document.createElement('a');
+    setAttributes(item, {
+      href: photo.links.html,
+      target: '_blank',
+    });
+    // Create <img> for photo
+    const img = document.createElement('img');
+    setAttributes(img, {
+      src: photo.urls.regular,
+      alt: photo.alt_description,
+      title: photo.alt_description,
+    });
+    // Event Listener, check when each is finished loading
+    img.addEventListener('load', imageLoaded);
+    // Put <img> inside <a>, then put both inside imageContainer Element
+    item.appendChild(img);
+    imageContainer.appendChild(item);
+  });
+}
+
+// Get photos from Unsplash API
+async function getPhotos() {
+  try {
+    const response = await fetch(apiUrl);
+    photosArray = await response.json();
+    displayPhotos();
+  } catch (error) {
+    // Catch Error Here
+  }
+}
+
+// Check to see if scrolling near bottom of page, Load More Photos
+window.addEventListener('scroll', () => {
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000 && ready) {
+    ready = false;
+    getPhotos();
+  }
+});
+
+// On Load
+getPhotos();
+  
+
+</script>
+
+    
+    <!-- function myFunction() {
+        document.getElementById('img1').
+
+    }
+    </script> -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+  <script src="script.js"></script>
+
+  
+</body>
+
+</html>
